@@ -1,4 +1,5 @@
 from stats import *
+import sys
 
 def get_book_text(filePath):
     with open(filePath) as f:
@@ -8,7 +9,9 @@ def get_book_text(filePath):
 def gen_report(filePath):
     bookText = get_book_text(filePath)
     report = "============ BOOKBOT ============\n"
-    report +="Analyzing book found at books/frankenstein.txt...\n"
+    report +="Analyzing book found at "
+    report += filePath
+    report += "\n"
     report +="----------- Word Count ----------\n"
     report +="Found "
     report += str(get_num_words(bookText)) 
@@ -22,18 +25,15 @@ def gen_report(filePath):
             report += ": "
             report += str(dictList["count"])
             report += "\n"
-    '''
-    for char in charDict:
-        if char.isalpha():
-            report += char
-            report += ": "
-            report += str(charDict[char])
-            report += "\n"
-    '''
     report += "============= END ==============="
     return report
 
 def main():
-    frankFilePath = "./books/frankenstein.txt"
-    print(gen_report(frankFilePath))
+    argv = sys.argv
+    if len(argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    else:
+        filePath = argv[1]
+        print(gen_report(filePath))
 main()
